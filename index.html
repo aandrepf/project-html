@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>web fundamentals</title>
+    <style>
+        .square {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+            margin: 10px 0;
+        }
+        .caixa {
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div hidden>Esta div está escondida para o usuario</div>
+
+    <button type="button" accesskey="n" draggable="true">botao com access key 'n'</button>
+    <button type="button" accesskey="s">botao com access key 's'</button>
+
+    <div id="c1" class="caixa" draggable="true"></div>
+    <div id="c2" class="caixa" draggable="true"></div>
+    <div class="square" dropzone="copy"></div>
+
+    <p contenteditable="true" dir="rtl">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum dicta ex ipsum temporibus accusamus a illo, mollitia, maiores non dolor adipisci quisquam id sapiente. Distinctio soluta odio inventore. In, ullam.</p>
+
+    <ul>
+        <li data-id="1" data-email="figueiredoaphilippe@gmail.com">André Figueiredo</li>
+        <li data-id="2" data-email="glaucio@hcode.com.br">Glaudio Daniel</li>  
+    </ul>
+
+    <input type="text" name="email" placeholder="email" tabindex="1">
+    <input type="text" name="senha" placeholder="senha" tabindex="2">
+    <button type="button" tabindex="4">limpar</button>
+    <button type="button" tabindex="3">enviar</button>
+
+    <script>
+        document.querySelectorAll('li').forEach(element => {
+            console.log(element.dataset);
+        })
+    </script>
+
+    <script>
+        const caixa = document.querySelectorAll('.caixa');
+        const dropzone = document.querySelector('[dropzone]');
+
+        caixa.forEach(caixaEl => {  
+            // adiciona aos elementos um listener no evento de dragstart
+            caixaEl.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('Text', e.target.id); // seta o dipo de dado da transferencia
+                console.log('arrastando -> ', e.target.id)
+            })
+        });
+
+        // cancela o evento padrão dos navegadores de soltar um draggable
+        dropzone.addEventListener('dragover', e => { e.preventDefault(); });
+
+        // ao soltar o draggable no elemento com atributo dropzone
+        dropzone.addEventListener('drop', e => {
+            console.log('soltando -> ', e.dataTransfer.getData('Text'));
+            const id = e.dataTransfer.getData('Text');
+            const element = document.getElementById(id);
+            e.target.appendChild(element);
+        })
+    </script>
+</body>
+</html>
